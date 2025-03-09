@@ -55,6 +55,8 @@ A documentação da API está disponível através do Swagger UI:
 3. Teste os endpoints disponíveis:
    - POST /api/messages - Criar nova mensagem
    - GET /api/messages - Listar todas as mensagens
+   - GET /api/messages/remetente/{remetente} - Buscar mensagens por remetente
+   - GET /api/messages/destinatario/{destinatario} - Buscar mensagens por destinatário
 
 ### Usando cURL
 
@@ -64,15 +66,44 @@ curl -X POST http://localhost:8080/api/messages \
 -H "Content-Type: application/json" \
 -d '{
     "mensagem": "Teste de mensagem",
+    "destinatario": "usuario2",
     "lembrarRemetente": true,
     "dataLembrete": "2024-03-10T10:00:00",
     "dataEvento": "2024-03-15T15:00:00"
 }'
 ```
 
+**Resposta esperada:**
+```json
+{
+    "id": "65ed1234abcd5678ef901234",
+    "mensagem": "Teste de mensagem",
+    "remetente": "sistema",
+    "destinatario": "usuario2",
+    "lembrarRemetente": true,
+    "dataLembrete": "2024-03-10T10:00:00",
+    "dataEvento": "2024-03-15T15:00:00"
+}
+```
+
+**Observações**: 
+- O ID é gerado automaticamente pelo MongoDB
+- O remetente é definido automaticamente pelo sistema com base no usuário autenticado
+- O formato de data deve ser: "yyyy-MM-dd'T'HH:mm:ss" (Exemplo: "2024-03-10T10:00:00")
+
 **Listar todas as mensagens:**
 ```bash
 curl http://localhost:8080/api/messages
+```
+
+**Buscar mensagens por remetente:**
+```bash
+curl http://localhost:8080/api/messages/remetente/usuario1
+```
+
+**Buscar mensagens por destinatário:**
+```bash
+curl http://localhost:8080/api/messages/destinatario/usuario2
 ```
 
 ## Estrutura do Projeto
@@ -134,8 +165,10 @@ src/
 ## Funcionalidades
 
 - [x] CRUD de mensagens
+- [x] Busca de mensagens por remetente
+- [x] Busca de mensagens por destinatário
 - [x] Documentação interativa com Swagger
 - [x] Persistência em MongoDB
-- [ ] Autenticação e autorização
+- [ ] Autenticação e autorização (Em desenvolvimento)
 - [ ] Notificações em tempo real
 - [ ] Agendamento de mensagens 

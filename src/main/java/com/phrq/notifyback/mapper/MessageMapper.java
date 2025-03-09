@@ -1,14 +1,15 @@
 package com.phrq.notifyback.mapper;
 
 import org.springframework.stereotype.Component;
-import com.phrq.notifyback.dto.MessageDTO;
-import com.phrq.notifyback.model.Message;
 import org.springframework.beans.BeanUtils;
+import com.phrq.notifyback.dto.MessageDTO;
+import com.phrq.notifyback.dto.MessageCreateDTO;
+import com.phrq.notifyback.model.Message;
 
 @Component
 public class MessageMapper {
     
-    public Message toEntity(MessageDTO dto) {
+    public Message toEntity(MessageCreateDTO dto) {
         Message message = new Message();
         BeanUtils.copyProperties(dto, message);
         return message;
