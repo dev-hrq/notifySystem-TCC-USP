@@ -38,3 +38,4 @@ logs/
 
 ### Environment Variables ###
 .env 
+.cursor/rules/java-spring-cursor-rules.mdc
