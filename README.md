@@ -1,4 +1,7 @@
-# Notifyback
+
+![alt](logo.webp)
+
+# NotifyX
 
 This is a Spring Boot project for TCC (Demo project).
 
