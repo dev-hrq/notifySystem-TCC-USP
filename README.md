@@ -2,38 +2,80 @@
 
 # NotifyX
 
-This is a Spring Boot project for TCC (Demo project).
+Sistema de notificações desenvolvido como projeto de TCC.
 
-## Requirements
+## Requisitos
 
 - Java 17
 - Maven 3.6+
+- MongoDB 6.0+
 
-## Building the Project
+## Configuração do Ambiente
 
-To build the project, run:
+1. **MongoDB**
+   - Instale o MongoDB
+   - O banco de dados será criado automaticamente como `notifyxdb`
+   - A aplicação espera que o MongoDB esteja rodando em:
+     - Host: localhost
+     - Porta: 27017
+
+2. **Java e Maven**
+   - Certifique-se de ter o Java 17 instalado
+   - Maven deve estar configurado no seu PATH
+
+## Construindo o Projeto
+
+Para construir o projeto, execute:
 
 ```bash
 mvn clean install
 ```
 
-## Running the Application
+## Executando a Aplicação
 
-To run the application, use:
+Para iniciar a aplicação, use:
 
 ```bash
 mvn spring-boot:run
 ```
 
-The application will start on port 8080.
+A aplicação estará disponível em: http://localhost:8080
 
-## API Documentation
+## Documentação da API
 
-The API documentation is available through Swagger UI:
+A documentação da API está disponível através do Swagger UI:
 - Swagger UI: http://localhost:8080/swagger-ui.html
-- OpenAPI Specification: http://localhost:8080/api-docs
+- Especificação OpenAPI: http://localhost:8080/api-docs
 
-## Project Structure
+## Testando a API
+
+### Usando Swagger UI
+1. Acesse http://localhost:8080/swagger-ui.html
+2. Navegue até a seção "Message"
+3. Teste os endpoints disponíveis:
+   - POST /api/messages - Criar nova mensagem
+   - GET /api/messages - Listar todas as mensagens
+
+### Usando cURL
+
+**Criar nova mensagem:**
+```bash
+curl -X POST http://localhost:8080/api/messages \
+-H "Content-Type: application/json" \
+-d '{
+    "mensagem": "Teste de mensagem",
+    "lembrarRemetente": true,
+    "dataLembrete": "2024-03-10T10:00:00",
+    "dataEvento": "2024-03-15T15:00:00"
+}'
+```
+
+**Listar todas as mensagens:**
+```bash
+curl http://localhost:8080/api/messages
+```
+
+## Estrutura do Projeto
 
 ```
 src/
@@ -45,12 +87,17 @@ src/
 │   │               ├── config/
 │   │               │   └── OpenApiConfig.java
 │   │               ├── controller/
+│   │               │   └── MessageController.java
 │   │               ├── service/
+│   │               │   └── MessageService.java
 │   │               ├── repository/
+│   │               │   └── MessageRepository.java
 │   │               ├── model/
+│   │               │   └── Message.java
 │   │               ├── dto/
-│   │               ├── exception/
-│   │               ├── util/
+│   │               │   └── MessageDTO.java
+│   │               ├── mapper/
+│   │               │   └── MessageMapper.java
 │   │               └── NotifybackApplication.java
 │   └── resources/
 │       └── application.properties
@@ -62,23 +109,33 @@ src/
                     └── NotifybackApplicationTests.java
 ```
 
-## Package Structure
+## Estrutura de Pacotes
 
-- `controller`: REST controllers for handling HTTP requests
-- `service`: Business logic implementation
-- `repository`: Data access layer interfaces
-- `model`: Domain model classes
-- `dto`: Data Transfer Objects for API requests/responses
-- `exception`: Custom exceptions and error handlers
-- `util`: Utility classes and helper methods
-- `config`: Application configuration classes
+- `controller`: Controladores REST para manipulação de requisições HTTP
+- `service`: Implementação da lógica de negócios
+- `repository`: Interfaces de acesso ao MongoDB
+- `model`: Classes de entidade do MongoDB
+- `dto`: Objetos de Transferência de Dados para API
+- `mapper`: Conversores entre DTOs e entidades
+- `config`: Classes de configuração da aplicação
 
-## Features
+## Tecnologias Utilizadas
 
 - Spring Boot 3.4.3
 - Java 17
-- RESTful API support
-- OpenAPI 3.0 Documentation (Swagger)
-- Development tools (Spring Boot DevTools)
-- Lombok for reducing boilerplate code
-- Comprehensive test support 
+- MongoDB para persistência de dados
+- Spring Data MongoDB
+- OpenAPI 3.0 (Swagger) para documentação
+- MapStruct para mapeamento de objetos
+- Lombok para redução de código boilerplate
+- Spring DevTools para desenvolvimento
+- Maven para gerenciamento de dependências
+
+## Funcionalidades
+
+- [x] CRUD de mensagens
+- [x] Documentação interativa com Swagger
+- [x] Persistência em MongoDB
+- [ ] Autenticação e autorização
+- [ ] Notificações em tempo real
+- [ ] Agendamento de mensagens 
